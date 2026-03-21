@@ -5,6 +5,7 @@ import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
 import NavBar from "./components/NavBar";
 import { Toaster } from "react-hot-toast";
+import CustomerDashboard from "./pages/CustomerDashboard";
 
 const App = () => {
   return (
@@ -19,6 +20,7 @@ const App = () => {
           <Route path="/shop-now" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/customer-dasboard" element={<CustomerDashboard />} />
         </Routes>
       </BrowserRouter>
     </>
