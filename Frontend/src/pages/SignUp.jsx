@@ -1,91 +1,60 @@
-import React, { useState } from "react";
-import toast from "react-hot-toast";
+import React from "react";
 
 const SignUp = () => {
-  const [detail, setDetail] = useState({
-    fullName: "",
-    email: "",
-    phone: "",
-    password: "",
-  });
-  const handleSubmit = () => {
-    console.log("Register Done");
-    toast.success("Registered User data");
-  };
   return (
-    <section className="relative min-h-screen overflow-hidden bg-slate-950 px-6 py-14 text-white md:px-10">
-      <div className="absolute -left-20 top-10 h-56 w-56 rounded-full bg-cyan-400/20 blur-3xl" />
-      <div className="absolute -right-16 bottom-10 h-64 w-64 rounded-full bg-emerald-400/20 blur-3xl" />
+    <>
+      <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-(--color-accent) p-4">
+        {/* Decorative circles */}
+        <div className="absolute -top-32 -right-32 w-60 h-60 bg-(--color-primary-hover) rounded-full opacity-30" />
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-(--color-primary-hover) rounded-full opacity-30" />
 
-      <div className="mx-auto grid w-full max-w-6xl items-center gap-10 md:grid-cols-2">
-        <div className="space-y-4">
-          <span className="inline-flex rounded-full border border-cyan-300/30 bg-cyan-300/10 px-4 py-1 text-xs font-semibold tracking-wider text-cyan-200 uppercase">
-            Join Shopify
-          </span>
-          <h1 className="text-4xl leading-tight font-black md:text-5xl">
-            Be a Shopify Customer
-          </h1>
-          <p className="max-w-md text-slate-300">
-            Create your account to unlock exclusive drops, curated picks, and
-            faster checkout for your next favorite order.
-          </p>
-        </div>
+        <div className="w-full max-w-3xl md:h-105 bg-white shadow-2xl flex flex-col md:flex-row rounded-lg overflow-hidden">
+          {/* LEFT PANEL */}
+          <div className="md:w-2/5 bg-(--color-primary) text-white p-8 flex flex-col justify-between">
+            <div>
+              <h1 className="text-2xl md:text-3xl font-semibold mb-4">
+                Looks like you're new here!
+              </h1>
 
-        <div className="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-2xl backdrop-blur-xl md:p-8">
-          <div className="grid gap-4">
-            <div className="grid gap-1.5">
-              <label className="text-sm text-slate-200" htmlFor="fullName">
-                Full Name
-              </label>
-              <input
-                type="text"
-                name="fullName"
-                className="rounded-xl border border-white/20 bg-slate-900 px-4 py-2.5 text-sm text-white outline-none transition focus:border-cyan-300"
-              />
+              <p className="text-blue-100 text-sm md:text-base">
+                Sign up with your mobile number to get started
+              </p>
             </div>
-            <div className="grid gap-1.5">
-              <label className="text-sm text-slate-200" htmlFor="email">
-                Email
-              </label>
-              <input
-                type="email"
-                name="email"
-                className="rounded-xl border border-white/20 bg-slate-900 px-4 py-2.5 text-sm text-white outline-none transition focus:border-cyan-300"
-              />
-            </div>
-            <div className="grid gap-1.5">
-              <label className="text-sm text-slate-200" htmlFor="phone">
-                Phone
-              </label>
-              <input
-                type="phone"
-                name="phone"
-                className="rounded-xl border border-white/20 bg-slate-900 px-4 py-2.5 text-sm text-white outline-none transition focus:border-cyan-300"
-              />
-            </div>
-            <div className="grid gap-1.5">
-              <label className="text-sm text-slate-200" htmlFor="password">
-                Password
-              </label>
-              <input
-                type="password"
-                name="password"
-                className="rounded-xl border border-white/20 bg-slate-900 px-4 py-2.5 text-sm text-white outline-none transition focus:border-cyan-300"
+
+            {/* Illustration */}
+            <div className="flex justify-center mt-6 md:mt-0">
+              <img
+                src="https://cdn-icons-png.flaticon.com/512/3144/3144456.png"
+                alt="signup"
+                className="w-28 md:w-36"
               />
             </div>
           </div>
 
-          <div className="mt-6">
-            <button
-              className="w-full rounded-xl bg-linear-to-r from-cyan-400 to-emerald-400 p-2.5 font-semibold text-slate-950 transition hover:brightness-110"
-              onClick={() => handleSubmit()}
-            >
-              Sign Up
-            </button>
+          <div className="md:w-3/5 flex flex-col px-8 items-center">
+            <div className="w-full  mt-10">
+              <input
+                type="text"
+                placeholder="Enter Mobile number or Email"
+                className="border-b border-gray-300 py-2 outline-none mb-8 w-full"
+              />
+
+              <p className="text-xs text-gray-500 mb-4">
+                By continuing, you agree to our Terms of Use and Privacy Policy.
+              </p>
+
+              <button className="bg-(--color-secondary) text-white py-3 font-semibold shadow-md hover:bg-(--color-secondary-hover) transition w-full cursor-pointer">
+                CONTINUE
+              </button>
+            </div>
+
+            <div className="mt-3 w-full border p-3 text-center shadow-sm cursor-pointer hover:bg-gray-50">
+              <span className="text-blue-600">Existing User? Log in</span>
+            </div>
           </div>
         </div>
       </div>
-    </section>
+    </>
   );
 };
 
