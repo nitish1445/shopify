@@ -7,7 +7,7 @@ const Login = () => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    indentifier: "",
+    identifier: "",
     otp: "",
   });
 
@@ -20,7 +20,7 @@ const Login = () => {
     const val = e.target.value.trim();
     setFormData({
       ...formData,
-      indentifier: val,
+      identifier: val,
     });
 
     if (/^\d{10}$/.test(val)) {
@@ -42,7 +42,7 @@ const Login = () => {
 
   const handleRequestOtp = (e) => {
     // e.preventDefault();
-    if (!formData.indentifier) {
+    if (!formData.identifier) {
       alert("Please Enter your phone or email");
       return;
     }
@@ -50,7 +50,7 @@ const Login = () => {
       //api call to request otp
       //default otp setup for a while
       alert(`Use ${requestOtp} as OTP until otp setup is being done`);
-      console.log(formData.indentifier);
+      console.log(formData.identifier);
       setInputField("otp");
     } catch (error) {
       console.log(error);
@@ -133,7 +133,7 @@ const Login = () => {
                 <div className="mb-6 md:mb-8">
                   <input
                     type="text"
-                    value={formData.indentifier}
+                    value={formData.identifier}
                     onChange={handleChange}
                     placeholder="Enter Email or Mobile number"
                     required
@@ -178,7 +178,7 @@ const Login = () => {
               <div className="text-sm text-center text-(--color-text-light) mb-6">
                 <p>
                   Enter OTP sent to{" "}
-                  <span className="font-semibold">{formData.indentifier}</span>
+                  <span className="font-semibold">{formData.identifier}</span>
                 </p>
 
                 <button

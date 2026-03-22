@@ -4,10 +4,9 @@ import { useNavigate } from "react-router-dom";
 import api from "../config/Api";
 
 const SignUp = () => {
-  let otpValue = 123456;
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    indentifier: "",
+    identifier: "",
     otp: "",
   });
 
@@ -21,7 +20,7 @@ const SignUp = () => {
     const val = e.target.value.trim();
     setFormData({
       ...formData,
-      indentifier: val,
+      identifier: val,
     });
 
     if (/^\d{10}$/.test(val)) {
@@ -44,49 +43,43 @@ const SignUp = () => {
 
   const handleOtpSend = async (e) => {
     // e.preventDefault();
-    if (!formData.indentifier) {
+    if (!formData.identifier) {
       alert("Please Enter your phone or email");
       return;
     }
     try {
-      //api call
-      setInputField("otp");
       const res = await api.post("/auth/send-otp", {
-        identifier: formData.indentifier,
+        identifier: formData.identifier,
       });
-      //default otp gen using alert
-
-      alert(
-        `Use ${otpValue} as your current OTP till backend is not connected`,
-      );
+      setInputField("otp");
+      toast.success(res.data.message);
+      toast.success("Use 123456 as current OTP");
     } catch (error) {
       console.log(error);
+      toast.error(error?.response?.data?.message || "Unkown Error");
+      if (error?.response?.data?.message === "User Already Registered") {
+        navigate("/login");
+      }
     }
-    console.log("Value ", formData.indentifier);
   };
 
-  const handleOtpVerify = (e) => {
+  const handleOtpVerify = async (e) => {
     // e.preventDefault();
     try {
-      const enteredOtp = Number(formData.otp);
-      if (enteredOtp === otpValue) {
-        navigate("/customer-dasboard");
-        toast.success("OTP verification Succesful. You are registered.");
-        setFormData({
-          ...formData,
-          otp: "",
-        });
-      } else {
-        toast.error("OTP is wrong \n Click resend to get new OTP.");
-        setFormData({
-          ...formData,
-          otp: "",
-        });
-        return;
-      }
-      console.log("OTP ", formData.otp);
+      const res = await api.post("/auth/signup", formData);
+      setFormData({
+        ...formData,
+        otp: "",
+      });
+      toast.success(res.data.message);
+      navigate("/customer-dasboard");
     } catch (error) {
       console.log(error);
+      toast.error(error?.response?.data?.message || "Unkown Error");
+      setFormData({
+        ...formData,
+        otp: "",
+      });
     }
   };
 
@@ -138,7 +131,7 @@ const SignUp = () => {
                 <div className="mb-6 md:mb-8">
                   <input
                     type="text"
-                    value={formData.indentifier}
+                    value={formData.identifier}
                     onChange={handleChange}
                     placeholder="Enter Email or Mobile number"
                     required
@@ -184,7 +177,7 @@ const SignUp = () => {
               <div className="text-sm text-center text-(--color-text-light) mb-6">
                 <p>
                   Enter OTP sent to{" "}
-                  <span className="font-semibold">{formData.indentifier}</span>
+                  <span className="font-semibold">{formData.identifier}</span>
                 </p>
 
                 <button
