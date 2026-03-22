@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import api from "../config/Api";
 
 const SignUp = () => {
   let otpValue = 123456;
@@ -41,7 +42,7 @@ const SignUp = () => {
     });
   };
 
-  const handleOtpSend = (e) => {
+  const handleOtpSend = async (e) => {
     // e.preventDefault();
     if (!formData.indentifier) {
       alert("Please Enter your phone or email");
@@ -49,8 +50,12 @@ const SignUp = () => {
     }
     try {
       //api call
-      //default otp gen using alert
       setInputField("otp");
+      const res = await api.post("/auth/send-otp", {
+        identifier: formData.indentifier,
+      });
+      //default otp gen using alert
+
       alert(
         `Use ${otpValue} as your current OTP till backend is not connected`,
       );
