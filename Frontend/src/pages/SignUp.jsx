@@ -42,21 +42,20 @@ const SignUp = () => {
   };
 
   const handleOtpSend = async (e) => {
-    // e.preventDefault();
+    e.preventDefault();
     if (!formData.identifier) {
       alert("Please Enter your phone or email");
       return;
     }
     try {
-      const res = await api.post("/auth/send-otp", {
+      const res = await api.post("/auth/signup/send-otp", {
         identifier: formData.identifier,
       });
       setInputField("otp");
       toast.success(res.data.message);
-      toast.success("Use 123456 as current OTP");
     } catch (error) {
       console.log(error);
-      toast.error(error?.response?.data?.message || "Unkown Error");
+      toast.error(error?.response?.data?.message || "Unknown Error");
       if (error?.response?.data?.message === "User Already Registered") {
         navigate("/login");
       }
@@ -64,7 +63,7 @@ const SignUp = () => {
   };
 
   const handleOtpVerify = async (e) => {
-    // e.preventDefault();
+    e.preventDefault();
     try {
       const res = await api.post("/auth/signup", formData);
       setFormData({

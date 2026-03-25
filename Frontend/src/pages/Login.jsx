@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import api from "../config/Api";
 
 const Login = () => {
-  const requestOtp = 123456;
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -40,45 +40,47 @@ const Login = () => {
     });
   };
 
-  const handleRequestOtp = (e) => {
-    // e.preventDefault();
+  const handleRequestOtp = async (e) => {
+    e.preventDefault();
     if (!formData.identifier) {
       alert("Please Enter your phone or email");
       return;
     }
     try {
-      //api call to request otp
-      //default otp setup for a while
-      alert(`Use ${requestOtp} as OTP until otp setup is being done`);
-      console.log(formData.identifier);
+      const res = await api.post("/auth/login/send-otp", {
+        identifier: formData.identifier,
+      });
       setInputField("otp");
+      toast.success(res.data.message);
     } catch (error) {
       console.log(error);
+      const message = error?.response?.data?.message;
+      toast.error(message || "Unknown Error");
+      if (message && message === "User not found. Register to login.") {
+        navigate("/signup");
+      } else {
+        setInputField("identifier");
+      }
     }
   };
-  const handleOtpVerify = (e) => {
-    // e.preventDefault();
+
+  const handleOtpVerify = async (e) => {
+    e.preventDefault();
     try {
-      //api call to verify and navigate dashboard
-      const enteredOtp = Number(formData.otp);
-      if (enteredOtp === requestOtp) {
-        navigate("/customer-dasboard");
-        toast.success("OTP verification Succesful. You are Logged in.");
-        setFormData({
-          ...formData,
-          otp: "",
-        });
-      } else {
-        toast.error("OTP is wrong \n Click resend to get new OTP.");
-        setFormData({
-          ...formData,
-          otp: "",
-        });
-        return;
-      }
-      console.log("OTP ", formData.otp);
+      const res = await api.post("/auth/login", formData);
+      setFormData({
+        ...formData,
+        otp: "",
+      });
+      toast.success(res.data.message);
+      navigate("/customer-dasboard");
     } catch (error) {
       console.log(error);
+      toast.error(error?.response?.data?.message || "Unknown Error");
+      setFormData({
+        ...formData,
+        otp: "",
+      });
     }
   };
 
@@ -195,7 +197,7 @@ const Login = () => {
                   type="text"
                   value={formData.otp}
                   onChange={handleOtpChange}
-                   maxLength={6}
+                  maxLength={6}
                   placeholder="Enter OTP"
                   className="border-b border-(--color-border) p-2 outline-none w-full text-center"
                 />
